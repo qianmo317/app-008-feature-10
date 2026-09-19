@@ -9,6 +9,19 @@ export function todayStr(): string {
   return new Date().toISOString().split('T')[0];
 }
 
+const pad2 = (n: number) => String(n).padStart(2, '0');
+
+// 今天只显示时分；今年显示月-日 时分；跨年带年份
+export function formatDateTime(ts: number): string {
+  const d = new Date(ts);
+  const now = new Date();
+  const hm = `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  if (d.toDateString() === now.toDateString()) return hm;
+  const md = `${pad2(d.getMonth() + 1)}-${pad2(d.getDate())} ${hm}`;
+  if (d.getFullYear() === now.getFullYear()) return md;
+  return `${d.getFullYear()}-${md}`;
+}
+
 export function generateBoxCode(task: MoveTask, roomTo: string): string {
   const prefix = roomTo.charAt(0).toUpperCase();
   const sameRoomBoxes = task.boxes.filter((b) => b.roomTo === roomTo);

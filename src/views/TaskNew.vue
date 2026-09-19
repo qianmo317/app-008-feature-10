@@ -26,6 +26,7 @@ async function submit() {
     date: date.value,
     rooms,
     boxes: [],
+    scanRecords: [],
     createdAt: Date.now(),
   };
   await saveTask(task);
