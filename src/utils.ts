@@ -9,6 +9,31 @@ export function todayStr(): string {
   return new Date().toISOString().split('T')[0];
 }
 
+function pad2(n: number): string {
+  return String(n).padStart(2, '0');
+}
+
+export function formatTime(ts: number): string {
+  const d = new Date(ts);
+  return `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+}
+
+export function formatDateTime(ts: number): string {
+  const d = new Date(ts);
+  return `${d.getMonth() + 1}月${d.getDate()}日 ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+}
+
+// 扫码记录列表的分组时间标签
+export function formatDayLabel(ts: number): string {
+  const d = new Date(ts);
+  const now = new Date();
+  if (d.toDateString() === now.toDateString()) return '今天';
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  if (d.toDateString() === yesterday.toDateString()) return '昨天';
+  return `${d.getMonth() + 1}月${d.getDate()}日`;
+}
+
 export function generateBoxCode(task: MoveTask, roomTo: string): string {
   const prefix = roomTo.charAt(0).toUpperCase();
   const sameRoomBoxes = task.boxes.filter((b) => b.roomTo === roomTo);
